@@ -1,6 +1,5 @@
 """
 This module provides a command-line interface for interacting with the chat system.
-Following SOLID principles by separating CLI concerns from chat logic.
 """
 
 from chat_manager import ChatManager

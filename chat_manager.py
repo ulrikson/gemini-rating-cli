@@ -1,6 +1,5 @@
 """
 This module provides chat functionality for the Gemini AI model.
-Following SOLID principles by separating chat management from basic API interactions.
 """
 
 from typing import List, Dict

@@ -1,6 +1,5 @@
 """
 This module provides a clean interface to interact with Google's Gemini AI model.
-Following SOLID principles and Python best practices.
 """
 
 import google.generativeai as genai
