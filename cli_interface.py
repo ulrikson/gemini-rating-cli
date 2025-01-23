@@ -3,6 +3,8 @@ This module provides a command-line interface for interacting with the chat syst
 """
 
 from chat_manager import ChatManager
+import csv
+import os
 
 
 class CLIInterface:
@@ -19,6 +21,38 @@ class CLIInterface:
             chat_manager: The ChatManager instance to use for chat operations
         """
         self._chat_manager = chat_manager
+        self._csv_file = "examples.csv"
+        self._ensure_csv_exists()
+
+    def _ensure_csv_exists(self) -> None:
+        """
+        Ensure the CSV file exists with proper headers.
+        """
+        if not os.path.exists(self._csv_file):
+            with open(self._csv_file, "w", newline="") as f:
+                writer = csv.writer(f)
+                writer.writerow(["textInput", "output", "rating"])
+
+    def _save_conversation_to_file(self, rating: int) -> None:
+        """
+        Save the conversation to examples.csv file.
+
+        Args:
+            rating: User's rating of the conversation (1-5)
+        """
+        try:
+            with open(self._csv_file, "a", newline="") as f:
+                writer = csv.writer(f)
+                writer.writerow(
+                    [
+                        "hello",  # Placeholder as specified
+                        "goodbye",  # Placeholder as specified
+                        rating,
+                    ]
+                )
+            print(f"Conversation saved successfully with rating {rating}/5")
+        except Exception as e:
+            print(f"Error saving conversation: {e}")
 
     def start(self) -> None:
         """
@@ -82,8 +116,7 @@ class CLIInterface:
                 try:
                     rating = int(input("Please rate this conversation (1-5): ").strip())
                     if 1 <= rating <= 5:
-                        # TODO: Implement actual saving logic
-                        print(f"Conversation rated {rating}/5")
+                        self._save_conversation_to_file(rating)
                         break
                     print("Please enter a number between 1 and 5")
                 except ValueError:
