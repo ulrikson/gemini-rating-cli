@@ -3,7 +3,7 @@ This module provides a clean interface to interact with Google's Gemini AI model
 Following SOLID principles and Python best practices.
 """
 
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, List
 import google.generativeai as genai
 from google.generativeai.types import GenerateContentResponse
 
@@ -24,6 +24,8 @@ class GeminiClient:
         """
         self._configure_client(api_key)
         self.model = genai.GenerativeModel(model_name)
+        self.chat = None
+        self.start_chat()
 
     def _configure_client(self, api_key: str) -> None:
         """
@@ -33,6 +35,12 @@ class GeminiClient:
             api_key: The API key for authentication
         """
         genai.configure(api_key=api_key)
+
+    def start_chat(self) -> None:
+        """
+        Start a new chat session.
+        """
+        self.chat = self.model.start_chat(history=[])
 
     def generate_content(self, prompt: str, **kwargs) -> GenerateContentResponse:
         """
@@ -47,6 +55,18 @@ class GeminiClient:
         """
         return self.model.generate_content(prompt, **kwargs)
 
+    def send_message(self, message: str) -> GenerateContentResponse:
+        """
+        Send a message in the current chat session.
+
+        Args:
+            message: The message to send
+
+        Returns:
+            The generated response
+        """
+        return self.chat.send_message(message)
+
     def get_response_text(self, response: GenerateContentResponse) -> str:
         """
         Extract text from a generation response.
@@ -58,3 +78,12 @@ class GeminiClient:
             The extracted text content
         """
         return response.text
+
+    def get_history(self) -> List[Dict[str, str]]:
+        """
+        Get the current chat history.
+
+        Returns:
+            List of message dictionaries containing role and text
+        """
+        return self.chat.history
