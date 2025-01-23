@@ -3,8 +3,7 @@ This module provides chat functionality for the Gemini AI model.
 Following SOLID principles by separating chat management from basic API interactions.
 """
 
-from typing import List, Dict, Optional
-import google.generativeai as genai
+from typing import List, Dict
 from google.generativeai.types import GenerateContentResponse
 from gemini import GeminiClient
 
@@ -23,14 +22,13 @@ class ChatManager:
             client: The GeminiClient instance to use for chat
         """
         self._client = client
-        self._chat = None
-        self.start_new_chat()
+        self._history: List[Dict[str, str]] = []
 
     def start_new_chat(self) -> None:
         """
         Start a new chat session.
         """
-        self._chat = self._client.get_model().start_chat(history=[])
+        self._history = []
 
     def send_message(self, message: str) -> GenerateContentResponse:
         """
@@ -42,9 +40,20 @@ class ChatManager:
         Returns:
             The generated response
         """
-        if not self._chat:
-            self.start_new_chat()
-        return self._chat.send_message(message)
+        # Add user message to history
+        self._history.append({"role": "user", "text": message})
+
+        # Create a context-aware prompt with chat history
+        history_prompt = "\n".join(
+            [f"{msg['role']}: {msg['text']}" for msg in self._history]
+        )
+        response = self._client.generate_content(history_prompt)
+
+        # Add assistant's response to history
+        response_text = self.get_response_text(response)
+        self._history.append({"role": "assistant", "text": response_text})
+
+        return response
 
     def get_history(self) -> List[Dict[str, str]]:
         """
@@ -53,7 +62,7 @@ class ChatManager:
         Returns:
             List of message dictionaries containing role and text
         """
-        return self._chat.history if self._chat else []
+        return self._history
 
     def get_response_text(self, response: GenerateContentResponse) -> str:
         """
@@ -65,4 +74,4 @@ class ChatManager:
         Returns:
             The extracted text content
         """
-        return self._client.get_response_text(response) 
+        return self._client.get_response_text(response)
