@@ -24,9 +24,7 @@ class CLIInterface:
         """
         Start the interactive CLI loop.
         """
-        print(
-            "Welcome to LeadPilot Sales Chat! (Type 'quit' to exit, 'new' to start a new chat)"
-        )
+        print("Welcome to Fine Tuning Chat! (Type 'quit' to exit, 'new' to start a new chat)")
 
         while True:
             # Get user input
