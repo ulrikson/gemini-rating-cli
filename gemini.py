@@ -16,7 +16,6 @@ class GeminiClient:
         self,
         api_key: str,
         model_name: str = "gemini-1.5-flash",
-        background_file: str = "background.txt",
     ):
         """
         Initialize the Gemini client.
@@ -24,11 +23,9 @@ class GeminiClient:
         Args:
             api_key: The API key for authentication
             model_name: The specific Gemini model to use
-            background_file: Path to the file containing background context
         """
         self._configure_client(api_key)
         self.model = genai.GenerativeModel(model_name)
-        self.background_content = self._load_background(background_file)
 
     def _configure_client(self, api_key: str) -> None:
         """
@@ -38,22 +35,6 @@ class GeminiClient:
             api_key: The API key for authentication
         """
         genai.configure(api_key=api_key)
-
-    def _load_background(self, background_file: str) -> str:
-        """
-        Load background content from file.
-
-        Args:
-            background_file: Path to the background content file
-
-        Returns:
-            The background content as a string
-        """
-        try:
-            with open(background_file, "r") as f:
-                return f.read().strip()
-        except FileNotFoundError:
-            return ""
 
     def get_model(self) -> genai.GenerativeModel:
         """
@@ -75,12 +56,7 @@ class GeminiClient:
         Returns:
             The generated content response
         """
-        if self.background_content:
-            full_prompt = f"System: {self.background_content}\nUser: {prompt}"
-        else:
-            full_prompt = prompt
-
-        return self.model.generate_content(full_prompt, **kwargs)
+        return self.model.generate_content(prompt, **kwargs)
 
     def get_response_text(self, response: GenerateContentResponse) -> str:
         """
