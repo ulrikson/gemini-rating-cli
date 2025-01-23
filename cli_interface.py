@@ -24,7 +24,9 @@ class CLIInterface:
         """
         Start the interactive CLI loop.
         """
-        print("Welcome to Fine Tuning Chat! (Type 'quit' to exit, 'new' to start a new chat)")
+        print(
+            "Welcome to Fine Tuning Chat! (Type 'quit' to exit, 'new' to start a new chat)"
+        )
 
         while True:
             # Get user input
@@ -63,7 +65,29 @@ class CLIInterface:
         Returns:
             True if the user wants to exit, False otherwise
         """
-        return user_input.lower() in ["quit", "exit", "q"]
+        wants_to_exit = user_input.lower() in ["quit", "exit", "q"]
+        if wants_to_exit:
+            self._collect_conversation_feedback()
+        return wants_to_exit
+
+    def _collect_conversation_feedback(self) -> None:
+        """
+        Collect feedback about the conversation from the user.
+        """
+        save_response = (
+            input("Do you want to save this conversation? (y/n): ").strip().lower()
+        )
+        if save_response == "y":
+            while True:
+                try:
+                    rating = int(input("Please rate this conversation (1-5): ").strip())
+                    if 1 <= rating <= 5:
+                        # TODO: Implement actual saving logic
+                        print(f"Conversation rated {rating}/5")
+                        break
+                    print("Please enter a number between 1 and 5")
+                except ValueError:
+                    print("Please enter a valid number")
 
     def _handle_commands(self, user_input: str) -> bool:
         """
