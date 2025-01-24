@@ -79,6 +79,9 @@ class CLIInterface:
         """
         Collect feedback about the conversation from the user.
         """
+        if not self._chat_manager.get_history():  # No messages in history
+            return
+
         save_response = (
             input("Do you want to save this conversation? (y/n): ").strip().lower()
         )
@@ -88,7 +91,9 @@ class CLIInterface:
                     rating = int(input("Please rate this conversation (1-5): ").strip())
                     if 1 <= rating <= 5:
                         self._conversation_storage.save_conversation(
-                            "hello", "goodbye", rating
+                            self._chat_manager.get_first_user_message(),
+                            self._chat_manager.get_last_assistant_message(),
+                            rating
                         )
                         break
                     print("Please enter a number between 1 and 5")

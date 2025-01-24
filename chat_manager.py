@@ -63,6 +63,31 @@ class ChatManager:
         """
         return self._history
 
+    def get_first_user_message(self) -> str:
+        """
+        Get the first message sent by the user in the chat.
+
+        Returns:
+            The first user message text, or empty string if none exists
+        """
+        return next((msg["text"] for msg in self._history if msg["role"] == "user"), "")
+
+    def get_last_assistant_message(self) -> str:
+        """
+        Get the last message sent by the assistant in the chat.
+
+        Returns:
+            The last assistant message text, or empty string if none exists
+        """
+        return next(
+            (
+                msg["text"]
+                for msg in reversed(self._history)
+                if msg["role"] == "assistant"
+            ),
+            "",
+        )
+
     def get_response_text(self, response: GenerateContentResponse) -> str:
         """
         Extract text from a generation response.

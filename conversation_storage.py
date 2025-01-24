@@ -64,10 +64,14 @@ class CSVConversationStorage(ConversationStorageInterface):
         if not 1 <= rating <= 5:
             raise ValueError("Rating must be between 1 and 5")
 
+        # Clean up the input and output text by replacing newlines with spaces
+        clean_input = text_input.replace("\n", " ").replace("\r", " ")
+        clean_output = output.replace("\n", " ").replace("\r", " ")
+
         try:
             with open(self._file_path, "a", newline="") as f:
                 writer = csv.writer(f)
-                writer.writerow([text_input, output, rating])
+                writer.writerow([clean_input, clean_output, rating])
             print(f"Conversation saved successfully with rating {rating}/5")
         except Exception as e:
             print(f"Error saving conversation: {e}")
