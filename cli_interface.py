@@ -3,7 +3,7 @@ This module provides a command-line interface for interacting with the chat syst
 """
 
 from chat_manager import ChatManager
-from conversation_storage import CSVConversationStorage
+from conversation_storage import ConversationStorageInterface
 
 
 class CLIInterface:
@@ -13,7 +13,9 @@ class CLIInterface:
     """
 
     def __init__(
-        self, chat_manager: ChatManager, conversation_storage: CSVConversationStorage
+        self,
+        chat_manager: ChatManager,
+        conversation_storage: ConversationStorageInterface,
     ):
         """
         Initialize the CLI interface.
@@ -30,7 +32,7 @@ class CLIInterface:
         Start the interactive CLI loop.
         """
         print(
-            "Welcome to Fine Tuning Chat! (Type 'quit' to exit, 'new' to start a new chat)"
+            "Welcome to Gemini Chat! (Type 'quit' to exit, 'new' to start a new chat)"
         )
 
         while True:
@@ -88,12 +90,13 @@ class CLIInterface:
         if save_response == "y":
             while True:
                 try:
-                    rating = int(input("Please rate this conversation (1-5): ").strip())
+                    rating = int(
+                        input("Please rate this conversation (Ø1-5): ").strip()
+                    )
                     if 1 <= rating <= 5:
-                        self._conversation_storage.save_conversation(
-                            self._chat_manager.get_first_user_message(),
-                            self._chat_manager.get_last_assistant_message(),
-                            rating
+                        # Save the full conversation history
+                        self._conversation_storage.save_full_conversation(
+                            self._chat_manager.get_history(), rating
                         )
                         break
                     print("Please enter a number between 1 and 5")

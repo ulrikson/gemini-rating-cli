@@ -41,5 +41,6 @@ htmlcov/
 .DS_Store
 Thumbs.db 
 
-# CSV file
+# Data files
 examples.csv
+conversations.json
