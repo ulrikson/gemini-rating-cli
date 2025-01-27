@@ -9,7 +9,6 @@ from conversation_storage import ConversationStorageInterface
 class CLIInterface:
     """
     Handles command-line interface interactions for the chat system.
-    Follows Single Responsibility Principle by handling only CLI-related operations.
     """
 
     def __init__(

@@ -10,7 +10,6 @@ from gemini import GeminiClient
 class ChatManager:
     """
     Manages chat sessions with the Gemini AI model.
-    Follows Single Responsibility Principle by handling only chat-related operations.
     """
 
     def __init__(self, client: GeminiClient):

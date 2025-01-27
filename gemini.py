@@ -9,7 +9,6 @@ from google.generativeai.types import GenerateContentResponse
 class GeminiClient:
     """
     A client for interacting with Google's Gemini AI model.
-    Follows Single Responsibility Principle by handling only Gemini-related operations.
     """
 
     def __init__(
