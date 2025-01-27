@@ -21,12 +21,23 @@ class ChatManager:
         """
         self._client = client
         self._history: List[Dict[str, str]] = []
-
+        self._add_system_prompt()
+        
     def start_new_chat(self) -> None:
         """
         Start a new chat session.
         """
         self._history = []
+        self._add_system_prompt()
+
+    def _add_system_prompt(self) -> None:
+        """
+        Add the system prompt to the chat history.
+        """
+        with open("system_prompt.txt", "r") as file:
+            system_prompt = file.read()
+        
+        self._history.append({"role": "system", "text": system_prompt})
 
     def send_message(self, message: str) -> GenerateContentResponse:
         """
