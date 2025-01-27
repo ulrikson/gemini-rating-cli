@@ -44,3 +44,4 @@ Thumbs.db
 # Data files
 examples.csv
 conversations.json
+system_prompt.txt
