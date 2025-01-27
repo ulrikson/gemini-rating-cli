@@ -91,7 +91,7 @@ class CLIInterface:
             while True:
                 try:
                     rating = int(
-                        input("Please rate this conversation (Ø1-5): ").strip()
+                        input("Please rate this conversation (1-5): ").strip()
                     )
                     if 1 <= rating <= 5:
                         # Save the full conversation history
