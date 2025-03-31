@@ -2,9 +2,7 @@
 
 ## My Goal
 
-I fine-tuned a Gemini model. I needed an easy way to rate its answers.
-
-So, I created a command-line interface. It interacts with Google's Gemini AI model. It includes conversation rating and storage features.
+I was fine-tuning Gemini 2.0 Flash and needed an easy way to rate its answers. So, I created a command-line interface that includes conversation rating and storage features.
 
 Features
 
