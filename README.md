@@ -1,8 +1,12 @@
 # Gemini Rating CLI
 
-A command-line interface for interacting with Google's Gemini AI model, with built-in conversation rating and storage capabilities.
+## My Goal
 
-## Features
+I fine-tuned a Gemini model. I needed an easy way to rate its answers.
+
+So, I created a command-line interface. It interacts with Google's Gemini AI model. It includes conversation rating and storage features.
+
+Features
 
 - Interactive chat with Gemini X model
 - Save and rate conversations for future review, e.g. to improve your own prompts or fine-tune the model
@@ -10,12 +14,13 @@ A command-line interface for interacting with Google's Gemini AI model, with bui
 - Simple command system (`new` for new chat, `quit` to exit)
 - Environment variable configuration for API key
 
-## Prerequisites
+## Getting Started
+### Prerequisites
 
 - Python 3.x
 - Google Gemini API key
 
-## Installation
+### Installation
 
 1. Clone the repository:
 
@@ -36,7 +41,7 @@ pip install -r requirements.txt
 GEMINI_API_KEY=your_api_key_here
 ```
 
-## Usage
+### Usage
 
 Run the CLI:
 
@@ -44,7 +49,7 @@ Run the CLI:
 python main.py
 ```
 
-### Commands
+Commands
 
 - Type your message and press Enter to chat with Gemini
 - Type `new` to start a new chat session
@@ -58,7 +63,3 @@ python main.py
 - `chat_manager.py`: Manages chat sessions and history
 - `cli_interface.py`: Provides the command-line interface
 - `conversation_storage.py`: Handles saving and loading conversations
-
-## Contributing
-
-Feel free to open issues or submit pull requests for any improvements.
